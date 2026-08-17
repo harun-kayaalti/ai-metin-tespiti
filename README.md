@@ -1,77 +1,165 @@
-# AI Metin Tespiti — KARDEP Staj Projesi
+# Türkçe Metinlerde Yapay Zekâ Dedektörlerinin Denetlenmesi
 
-## 1. Projenin kısa amacı
+Yozgat Bozok Üniversitesi — KARDEP Projesi
+**Kontrollü Mobil Veri Toplama Altyapısı ile Türkçe Metinlerde Ticari Yapay
+Zekâ Dedektörlerinin Yanlış Pozitif ve Kaçırma Davranışının Denetlenmesi**
 
-Bu çalışma, ticari yapay zekâ metin dedektörlerinin **Türkçe metinlerdeki güvenilirliğini denetlemektedir**. Yeni bir dedektör geliştirilmemekte; mevcut araçların iki hata türü ölçülmektedir:
+Stajyer: Harun Kayaaltı · Danışman: Dr. Öğr. Üyesi Çağrı Arısoy
+Son güncelleme: 14 Ağustos 2026
 
-- **Yanlış pozitif:** İnsanın yazdığı metnin yapay zekâ üretimi sanılması (ana metrik)
-- **Kaçırma / evasion:** Yapay zekâ üretimi metnin, özellikle insanlaştırma araçlarından geçtikten sonra yakalanamaması
+---
 
-Depo, projenin stajyer görev alanını kapsar: veri protokolü, özellik çıkarımı ve temel (baseline) model.
+## 1. Projenin amacı
 
-## 2. Klasör ve dosyaların açıklaması
+Ticari yapay zekâ metin dedektörlerinin Türkçe metinlerdeki davranışını
+denetlemek. İki soru sorulmaktadır:
 
-| Klasör | İçerik |
-|---|---|
-| `data_raw/` | Kaynağından alındığı hâliyle ham veri. **Değiştirilmez, üzerine yazılmaz.** Sürüm takibi dışındadır. |
-| `data_interim/` | Temizleme ve ara işlem çıktıları. Sürüm takibi dışındadır. |
-| `data_processed/` | Analiz için hazır veri dosyaları. Sürüm takibi dışındadır. |
-| `notebooks/` | Keşif ve açıklamalı deney defterleri (Jupyter). |
-| `src/` | Tekrar kullanılabilir Python fonksiyonları ve betikleri. |
-| `results/` | Tablo ve metrik çıktıları. |
-| `figures/` | Grafik çıktıları. |
-| `reports/` | LaTeX kaynakları, PDF ve raporlar. |
-| `references/` | Literatür matrisi, makale özetleri ve BibTeX dosyası. |
+1. **Kaçırma:** Yapay zekâ tarafından üretilmiş bir metin, insanlaştırma
+   araçlarından geçirildiğinde dedektörler bunu kaçırıyor mu?
+2. **Yanlış pozitif:** Gerçekten insan tarafından yazılmış bir metin yanlışlıkla
+   yapay olarak işaretleniyor mu?
 
-Klasör düzeni Staj Çalışma Usul ve Esasları Bölüm 5.2'deki standarda uygundur.
+Bu staj çalışması **birinci soruyu** ele alır. İkinci soru, gerçek katılımcı
+metni gerektirdiğinden etik onay süreci tamamlanmadan yanıtlanamaz; altyapı
+buna hazır bırakılmıştır (bkz. §7).
 
-## 3. Kurulum ve gerekli paketler
+Çalışma bir dedektör geliştirme veya model eğitme çalışması **değildir**.
+Mevcut araçlar denetlenmekte, açık kaynak bir referans yaklaşım
+uygulanmaktadır.
 
-*(3. haftada kod yazımı başladığında doldurulacak.)*
+---
+
+## 2. Deney tasarımı
+
+```
+4 üretici model  ×  5 sabit prompt  =  20 ham yapay metin
+                                    ×  2 insanlaştırma aracı
+                                    =  40 insanlaştırılmış metin
+                                    ─────────────────────────────
+                                       60 metin
+```
+
+Her metin üç dedektör tipiyle ölçülmüştür:
+
+| tip | araç | ölçüm |
+|---|---|---|
+| çok dilli ticari | GPTZero (Model 4.1m, Advanced) | 60 |
+| ticari-hibrit | ZeroGPT (web arayüzü, Detect Text) | 60 |
+| açık kaynak referans | Perplexity — 3 Türkçe dil modeli | 180 |
+
+**Toplam 300 ölçüm.**
+
+Üretici modeller: ChatGPT, Gemini, Claude, Kumru
+İnsanlaştırma araçları: Aithor, Rephraser.co
+
+---
+
+## 3. Klasör yapısı
+
+```
+proje/
+├── README.md                  bu dosya
+├── requirements.txt           paket sürümleri
+├── veri_sozlugu.md            değişken tanımları
+├── data_raw/                  ham veri — DEĞİŞTİRİLMEZ
+│   ├── texts.csv              60 metin
+│   └── detector_scores.csv    120 ticari dedektör ölçümü
+├── src/                       betikler
+│   ├── build_data.py          veri dosyalarını üretir (tek doğruluk kaynağı)
+│   ├── veri_kalite_kontrol.py veri seti denetimi
+│   ├── perplexity_baseline.py açık kaynak referans yaklaşım
+│   ├── metrikler.py           yakalama, AUC, kaçırma, Wilcoxon
+│   ├── uyum.py                kappa, McNemar, yön uyumu
+│   └── sekiller.py            şekiller
+├── results/                   üretilen tablolar
+├── figures/                   üretilen şekiller
+└── reports/                   LaTeX raporu, haftalık kayıtlar, sunum
+```
+
+`data_raw/` içindeki dosyalar elle düzenlenmez. Tüm veri değişiklikleri
+`src/build_data.py` içinden yapılır ve dosyalar yeniden üretilir.
+
+---
+
+## 4. Kurulum
 
 ```bash
 python -m venv venv
-venv\Scripts\activate        # Windows
+venv\Scripts\activate          # Windows
 pip install -r requirements.txt
 ```
 
-## 4. Veriye erişim ve gizlilik notu
+Gerekli paketler: `pandas`, `torch`, `transformers`, `matplotlib`.
+Perplexity ölçümü ilk çalıştırmada yaklaşık 4 GB model indirir.
 
-- **Gerçek katılımcı verisi etik kurul onayı tamamlanmadan toplanmaz.** (KARDEP Bölüm 14; Usul-Esaslar Bölüm 13.3)
-- Ham veri klasörleri (`data_raw/`, `data_interim/`, `data_processed/`) `.gitignore` ile sürüm takibi dışında tutulur ve **depoya yüklenmez** — depo private olsa dahi (Usul-Esaslar Bölüm 6.2).
-- Metinlerden ad, öğrenci numarası ve kimlik göstergeleri temizlenir.
-- Kişisel veri, erişim anahtarı ve yayımlanmamış proje dosyaları kamuya açık yapay zekâ araçlarına yüklenmez (Usul-Esaslar Bölüm 4.1).
+---
 
-## 5. Kodların çalıştırılma sırası
+## 5. Çalıştırma sırası
 
-*(3. haftada kod yazımı başladığında doldurulacak.)*
+Betikler proje kök klasöründen, bu sırayla çalıştırılır:
 
-Planlanan akış:
-1. Yapay zekâ metinlerinin üretimi (5 sabit prompt × 2–3 model)
-2. Humanizer aracından geçirme → humanized sınıfı
-3. Temizleme ve özellik çıkarımı (`word_count`, `char_count`, `length_band`)
-4. Dedektörlerden geçirme ve skor tablosunun oluşturulması
-5. Metrik hesaplama (FPR, recall, evasion etkisi)
+```bash
+python src/build_data.py            # 1. veri dosyalarını üret
+python src/veri_kalite_kontrol.py   # 2. veri setini denetle (0 uyarı bekleniyor)
+python src/perplexity_baseline.py   # 3. açık kaynak referans ölçümleri
+python src/metrikler.py             # 4. metrikler
+python src/uyum.py                  # 5. dedektörler arası uyum
+python src/sekiller.py              # 6. şekiller
+```
 
-## 6. Üretilen çıktılar ve konumları
+Her adım bir öncekinin çıktısına bağımlıdır; sıra değiştirilmemelidir.
 
-| Çıktı | Konum | Durum |
-|---|---|---|
-| Literatür matrisi | `references/Literatur_Matrisi.xlsx` | M01–M06 dolu |
-| Makale özetleri | `references/*_ozet.md` | 6 makale |
-| Kaynakça | `references/references.bib` | 6 kayıt |
-| Veri sözlüğü | `references/` | 2. haftada |
-| Analiz kodları | `src/`, `notebooks/` | 3. haftadan itibaren |
-| Şekil ve tablolar | `figures/`, `results/` | 4. haftadan itibaren |
+---
 
-## 7. Bilinen sorunlar ve tamamlanmayan işler
+## 6. Üretilen çıktılar
 
-- Etik kurul süreci devam ettiği için `human` sınıfı verisi henüz mevcut değil. Analiz boru hattı, veri geldiğinde çalışacak şekilde kurulmaktadır.
-- Kullanılacak dil modelleri, humanizer aracı ve ticari dedektörler danışman kararıyla kesinleşecektir (KARDEP Bölüm 11 listeyi erişilebilirliğe göre açık bırakmıştır).
-- "Temel model" ile kastedilenin açık kaynak/perplexity tabanlı baseline olduğu danışmanla teyit edilecektir.
+| dosya | içerik |
+|---|---|
+| `data_raw/texts.csv` | 60 metin, uzunluk ve dönüşüm ölçüleri |
+| `data_raw/detector_scores.csv` | 120 ticari dedektör ölçümü |
+| `results/veri_kalite_kontrol.md` | veri seti denetim raporu |
+| `results/perplexity_scores.csv` | 180 perplexity ölçümü |
+| `results/perplexity_model_bilgisi.txt` | kod sürümü, dil modelleri, eşik durumu |
+| `results/perplexity_karsilastirma.md` | perplexity sonuçları |
+| `results/kacirma_ozet.csv` | prompt bazında kaçırma tablosu |
+| `results/metrikler.md` | yakalama, AUC, kaçırma, Wilcoxon |
+| `results/uyum.md` | kappa, McNemar, yön uyumu |
+| `figures/sekil1..5.png` | sonuç şekilleri |
 
-## 8. Sorumlu kişi ve güncelleme tarihi
+---
 
-**Stajyer:** *(Harun Kayaaltı)*
-**Danışman:** Dr. Öğr. Üyesi Çağrı Arısoy
-**Son güncelleme:** *(2026-07-17)*
+## 7. Veriye erişim ve gizlilik
+
+Veri setinde **kişisel veri bulunmamaktadır.** Tüm metinler dil modelleri
+tarafından üretilmiştir. Depo herkese açık biçimde paylaşılabilir.
+
+Etik onay sonrasında katılımcı metni toplanması hâlinde:
+
+- kimlik tablosu ayrı ve yetkili erişimli tutulacak,
+- analiz dosyalarında yalnızca kodlanmış veri kullanılacak,
+- katılımcı metinleri depoya yüklenmeyecektir.
+
+---
+
+## 8. Bilinen sorunlar ve tamamlanmayan işler
+
+1. **Yanlış pozitif oranı ölçülememiştir.** `human` sınıfı için gerçek
+   katılımcı metni gerekir; etik onay süreci staj dönemi içinde
+   tamamlanamamıştır.
+2. **Perplexity karar eşiği kalibre edilmemiştir.** Aynı nedenle. Betiğe
+   kalibrasyon seçeneği eklenmiştir:
+   `python src/perplexity_baseline.py --kalibrasyon insan_metinleri.csv`
+3. **Örneklem küçüktür** (model başına 5 prompt). Güven aralıkları geniştir;
+   sonuçlar eğilim olarak yorumlanmalıdır.
+4. **Aday dil modellerinden biri elenmiştir.** `cenkersisman/gpt2-turkish-128-token`
+   eğitim bağlam penceresi yetersiz olduğu için kapsam dışıdır; gerekçe
+   `results/perplexity_model_bilgisi.txt` içinde kayıtlıdır.
+5. **Ticari araçlar zamanla değişir.** Dedektör sürümleri ve ölçüm tarihleri
+   kaydedilmiştir; ileride tekrarlanan ölçümler farklı sonuç verebilir.
+
+---
+
+## 9. Sorumlu
+
+Harun Kayaaltı — stajyer öğrenci
+Dr. Öğr. Üyesi Çağrı Arısoy — danışman

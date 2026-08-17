@@ -1,8 +1,50 @@
-﻿data_raw/
-data_interim/
-data_processed/
-*.env
-*.key
-__pycache__/
-.ipynb_checkpoints/
+# Bu dosyayi proje kok klasorune ".gitignore" adiyla kaydedin.
+# (Dosya adinin basindaki nokta onemlidir.)
+
+# Sanal ortam
 venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Indirilen model onbellegi (GB boyutunda, depoya yuklenmez)
+.cache/
+models/
+*.safetensors
+*.bin
+
+# Isletim sistemi
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Gecici dosyalar
+*.tmp
+*.log
+~$*
+
+# LaTeX ara ciktilari
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc
+
+# NOT: data_raw/, results/ ve figures/ klasorleri DEPOYA DAHILDIR.
+# Bu proje kisisel veri icermez; tum metinler dil modelleri tarafindan
+# uretilmistir. Etik onay sonrasi katilimci metni toplanmasi halinde
+# asagidaki satir etkinlestirilmelidir:
+# data_raw/insan_metinleri.csv

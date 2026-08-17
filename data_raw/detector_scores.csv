@@ -1,0 +1,121 @@
+﻿text_id,detector_name,detector_version,scan_mode,score,binary_label,threshold,confidence,mixed_pct,kisa_metin_uyarisi,run_date
+T001,GPTZero,Model 4.1m,Advanced,0.7,1,0.5,moderately confident,,hayir,2026-08-05
+T001,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-05
+T002,GPTZero,Model 4.1m,Advanced,0.83,1,0.5,highly confident,,hayir,2026-08-05
+T002,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-05
+T003,GPTZero,Model 4.1m,Advanced,0.12,0,0.5,highly confident,,EVET,2026-08-05
+T003,ZeroGPT,web arayuz,Detect Text,0.308,0,0.5,Most Likely Human written,,hayir,2026-08-05
+T004,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-05
+T004,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-05
+T005,GPTZero,Model 4.1m,Advanced,0.19,0,0.5,moderately confident,,hayir,2026-08-05
+T005,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-05
+T006,GPTZero,Model 4.1m,Advanced,0.61,1,0.5,moderately confident,,hayir,2026-08-05
+T006,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-05
+T007,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,,hayir,2026-08-06
+T007,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-06
+T008,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-06
+T008,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-06
+T009,GPTZero,Model 4.1m,Advanced,0.77,1,0.5,moderately confident,,hayir,2026-08-06
+T009,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-06
+T010,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-06
+T010,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-06
+T011,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-06
+T011,ZeroGPT,web arayuz,Detect Text,0.241,0,0.5,Most Likely Human written,,hayir,2026-08-06
+T012,GPTZero,Model 4.1m,Advanced,0.47,0,0.5,uncertain,,hayir,2026-08-06
+T012,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-06
+T013,GPTZero,Model 4.1m,Advanced,0.84,1,0.5,highly confident,,hayir,2026-08-06
+T013,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-06
+T014,GPTZero,Model 4.1m,Advanced,0.39,0,0.5,uncertain,,hayir,2026-08-06
+T014,ZeroGPT,web arayuz,Detect Text,0.157,0,0.5,Human written,,hayir,2026-08-06
+T015,GPTZero,Model 4.1m,Advanced,0.03,0,0.5,highly confident,,hayir,2026-08-06
+T015,ZeroGPT,web arayuz,Detect Text,0.884,1,0.5,AI/GPT Generated,,hayir,2026-08-06
+T016,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,,hayir,2026-08-07
+T016,ZeroGPT,web arayuz,Detect Text,0.27,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T017,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,,hayir,2026-08-07
+T017,ZeroGPT,web arayuz,Detect Text,0.27,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T018,GPTZero,Model 4.1m,Advanced,0.96,1,0.5,highly confident,,hayir,2026-08-07
+T018,ZeroGPT,web arayuz,Detect Text,0.279,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T019,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,,hayir,2026-08-07
+T019,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-07
+T020,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,,hayir,2026-08-07
+T020,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-07
+T021,GPTZero,Model 4.1m,Advanced,0.92,1,0.5,highly confident,,hayir,2026-08-07
+T021,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-07
+T022,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,,hayir,2026-08-07
+T022,ZeroGPT,web arayuz,Detect Text,0.399,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T023,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,,hayir,2026-08-07
+T023,ZeroGPT,web arayuz,Detect Text,0.237,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T024,GPTZero,Model 4.1m,Advanced,0.97,1,0.5,highly confident,,hayir,2026-08-07
+T024,ZeroGPT,web arayuz,Detect Text,0.7385,1,0.5,mixed signals,,hayir,2026-08-07
+T025,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-07
+T025,ZeroGPT,web arayuz,Detect Text,0.555,1,0.5,Likely Human written,,hayir,2026-08-07
+T026,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-07
+T026,ZeroGPT,web arayuz,Detect Text,0.533,1,0.5,Likely Human written,,hayir,2026-08-07
+T027,GPTZero,Model 4.1m,Advanced,0.8,1,0.5,moderately confident,,hayir,2026-08-07
+T027,ZeroGPT,web arayuz,Detect Text,0.2401,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T028,GPTZero,Model 4.1m,Advanced,0.98,1,0.5,highly confident,,hayir,2026-08-07
+T028,ZeroGPT,web arayuz,Detect Text,0.39,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T029,GPTZero,Model 4.1m,Advanced,0.89,1,0.5,highly confident,,hayir,2026-08-07
+T029,ZeroGPT,web arayuz,Detect Text,0.384,0,0.5,Most Likely Human written,,hayir,2026-08-07
+T030,GPTZero,Model 4.1m,Advanced,0.09,0,0.5,highly confident,,hayir,2026-08-07
+T030,ZeroGPT,web arayuz,Detect Text,0.914,1,0.5,AI/GPT Generated,,hayir,2026-08-07
+T031,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-10
+T031,ZeroGPT,web arayuz,Detect Text,0.875,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T032,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-10
+T032,ZeroGPT,web arayuz,Detect Text,0.875,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T033,GPTZero,Model 4.1m,Advanced,0.87,1,0.5,highly confident,,hayir,2026-08-10
+T033,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T034,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,,hayir,2026-08-10
+T034,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-10
+T035,GPTZero,Model 4.1m,Advanced,0.72,1,0.5,moderately confident,,hayir,2026-08-10
+T035,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-10
+T036,GPTZero,Model 4.1m,Advanced,0.91,1,0.5,highly confident,,hayir,2026-08-10
+T036,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-10
+T037,GPTZero,Model 4.1m,Advanced,0.95,1,0.5,highly confident,,hayir,2026-08-10
+T037,ZeroGPT,web arayuz,Detect Text,0.259,0,0.5,Most Likely Human written,,hayir,2026-08-10
+T038,GPTZero,Model 4.1m,Advanced,0.03,0,0.5,highly confident - MIXED (6/9 cumle YZ),0.92,hayir,2026-08-10
+T038,ZeroGPT,web arayuz,Detect Text,0.309,0,0.5,Most Likely Human written,,hayir,2026-08-10
+T039,GPTZero,Model 4.1m,Advanced,0.02,0,0.5,highly confident - HUMAN,0.0,hayir,2026-08-10
+T039,ZeroGPT,web arayuz,Detect Text,0.755,1,0.5,mixed signals,,hayir,2026-08-10
+T040,GPTZero,Model 4.1m,Advanced,0.98,1,0.5,highly confident,0.0,hayir,2026-08-10
+T040,ZeroGPT,web arayuz,Detect Text,0.688,1,0.5,mixed signals,,hayir,2026-08-10
+T041,GPTZero,Model 4.1m,Advanced,0.98,1,0.5,highly confident,0.0,hayir,2026-08-10
+T041,ZeroGPT,web arayuz,Detect Text,0.688,1,0.5,mixed signals,,hayir,2026-08-10
+T042,GPTZero,Model 4.1m,Advanced,0.59,1,0.5,uncertain,0.01,hayir,2026-08-10
+T042,ZeroGPT,web arayuz,Detect Text,0.5817,1,0.5,Likely Human written,,hayir,2026-08-10
+T043,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,0.0,hayir,2026-08-10
+T043,ZeroGPT,web arayuz,Detect Text,0.328,0,0.5,Most Likely Human written,,hayir,2026-08-10
+T044,GPTZero,Model 4.1m,Advanced,1.0,1,0.5,highly confident,0.0,hayir,2026-08-10
+T044,ZeroGPT,web arayuz,Detect Text,0.328,0,0.5,Most Likely Human written,,hayir,2026-08-10
+T045,GPTZero,Model 4.1m,Advanced,0.05,0,0.5,moderately confident (mix),0.74,hayir,2026-08-10
+T045,ZeroGPT,web arayuz,Detect Text,0.602,1,0.5,Likely Human written,,hayir,2026-08-10
+T046,GPTZero,Model 4.1m,Advanced,0.01,0,0.5,highly confident (mix),0.95,hayir,2026-08-10
+T046,ZeroGPT,web arayuz,Detect Text,0.881,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T047,GPTZero,Model 4.1m,Advanced,0.58,1,0.5,uncertain,0.01,hayir,2026-08-10
+T047,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-10
+T048,GPTZero,Model 4.1m,Advanced,0.1,0,0.5,moderately confident (mix),0.8,hayir,2026-08-10
+T048,ZeroGPT,web arayuz,Detect Text,0.982,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T049,GPTZero,Model 4.1m,Advanced,0.0,0,0.5,highly confident human,0.04,hayir,2026-08-10
+T049,ZeroGPT,web arayuz,Detect Text,0.982,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T050,GPTZero,Model 4.1m,Advanced,0.2,0,0.5,moderately confident human,0.01,hayir,2026-08-10
+T050,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-10
+T051,GPTZero,Model 4.1m,Advanced,0.21,0,0.5,moderately confident human,0.01,hayir,2026-08-10
+T051,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-10
+T052,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,0.0,hayir,2026-08-10
+T052,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T053,GPTZero,Model 4.1m,Advanced,0.78,1,0.5,moderately confident,0.0,hayir,2026-08-10
+T053,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T054,GPTZero,Model 4.1m,Advanced,0.97,1,0.5,highly confident,0.0,hayir,2026-08-10
+T054,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T055,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,0.0,hayir,2026-08-10
+T055,ZeroGPT,web arayuz,Detect Text,0.131,0,0.5,Human written,,hayir,2026-08-10
+T056,GPTZero,Model 4.1m,Advanced,0.96,1,0.5,highly confident,0.0,hayir,2026-08-10
+T056,ZeroGPT,web arayuz,Detect Text,0.0,0,0.5,Human written,,hayir,2026-08-10
+T057,GPTZero,Model 4.1m,Advanced,0.11,0,0.5,highly confident human,0.07,hayir,2026-08-10
+T057,ZeroGPT,web arayuz,Detect Text,0.8475,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T058,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,0.0,hayir,2026-08-10
+T058,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T059,GPTZero,Model 4.1m,Advanced,0.99,1,0.5,highly confident,0.0,hayir,2026-08-10
+T059,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-10
+T060,GPTZero,Model 4.1m,Advanced,0.68,1,0.5,moderately confident,0.01,hayir,2026-08-10
+T060,ZeroGPT,web arayuz,Detect Text,1.0,1,0.5,AI/GPT Generated,,hayir,2026-08-10
