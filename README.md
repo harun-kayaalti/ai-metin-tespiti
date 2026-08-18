@@ -5,7 +5,7 @@ Yozgat Bozok Üniversitesi — KARDEP Projesi
 Zekâ Dedektörlerinin Yanlış Pozitif ve Kaçırma Davranışının Denetlenmesi**
 
 Stajyer: Harun Kayaaltı · Danışman: Dr. Öğr. Üyesi Çağrı Arısoy
-Son güncelleme: 14 Ağustos 2026
+Son güncelleme: 18 Ağustos 2026
 
 ---
 
@@ -59,6 +59,8 @@ Her metin üç dedektör tipiyle ölçülmüştür:
 ```
 proje/
 ├── README.md                  bu dosya
+├── DEVIR_NOTU.md              çalışmanın konumu, gizlilik durumu, devir adımları
+├── ISLER_LISTESI.md           tamamlanan / tamamlanamayan / devam edecek işler
 ├── requirements.txt           paket sürümleri
 ├── veri_sozlugu.md            değişken tanımları
 ├── data_raw/                  ham veri — DEĞİŞTİRİLMEZ
@@ -78,6 +80,26 @@ proje/
 
 `data_raw/` içindeki dosyalar elle düzenlenmez. Tüm veri değişiklikleri
 `src/build_data.py` içinden yapılır ve dosyalar yeniden üretilir.
+
+Usul ve esaslardaki klasör şablonunda yer alan `data_interim/`,
+`data_processed/` ve `notebooks/` klasörleri bu projede kullanılmamaktadır.
+Ara işlem adımı bulunmadığından `build_data.py` doğrudan son veri dosyalarını
+üretmekte, analizler Jupyter defteri yerine `src/` altındaki betiklerle
+yürütülmektedir.
+
+### Çalışmanın diğer parçaları
+
+Depo kod, veri ve sonuçları içerir. Raporun kaynak dosyaları ve staj kayıtları
+başka ortamlarda tutulmaktadır:
+
+| içerik | konum |
+|---|---|
+| LaTeX kaynak dosyaları | Overleaf projesi `Overleaf_Staj_Raporu` |
+| Derlenmiş rapor | `reports/Staj_Raporu.pdf` |
+| Günlük ve haftalık staj kayıtları | Google Drive staj klasörü |
+| Seçim gerekçesi belgeleri, etik belgeleri | Google Drive staj klasörü |
+
+Ayrıntı için `DEVIR_NOTU.md`.
 
 ---
 
