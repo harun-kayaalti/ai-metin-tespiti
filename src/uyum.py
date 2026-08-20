@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Dedektorler arasi uyum ve karar farklari
-23. gun - AI metin tespiti projesi
+KARDEP Bolum 13 -- Dedektorler arasi uyum ve karar farklari
 
 GIRDI
   data_raw/texts.csv
@@ -13,15 +12,15 @@ CIKTI
   results/uyum_ozet.csv
 
 HESAPLANANLAR
-  1. Ham uyum orani ve Cohen kappa            [karar veren dedektorler]
-  2. McNemar testi (tam binom)                [karar veren dedektorler]
-  3. Yon uyumu: insanlastirma skoru dusurdu mu [tum dedektor tipleri]
+  1. Ham uyum orani ve Cohen kappa   [KARDEP Bolum 13]
+  2. McNemar testi (tam binom)       [KARDEP Bolum 13]
 
 NOT
   Cohen kappa ve McNemar yalnizca ikili karar ureten dedektorler icin
   hesaplanabilir. Perplexity yaklasiminda esik kalibre edilmedigi icin
-  ikili karar yoktur; bu yaklasim ucuncu bolumdeki yon uyumu analizine
-  dahil edilmistir.
+  ikili karar yoktur; bu yaklasim uyum analizine dahil edilemez.
+
+  Proje metninin 13. bolumunde tanimlanmayan hicbir olcut eklenmemistir.
 
   Dis kutuphane gerektirmez.
 """
@@ -84,6 +83,15 @@ def mcnemar(a, b):
 def veri_yukle():
     texts = pd.read_csv("data_raw/texts.csv")
     sc = pd.read_csv("data_raw/detector_scores.csv")
+    meta = pd.read_csv("data_raw/ai_metadata.csv")
+    # KARDEP Bolum 12: model/arac bilgisi ayri metadata tablosundadir.
+    _m = dict(zip(meta.text_id, meta.model_tool))
+    _src = dict(zip(meta.text_id, meta.source_text_id))
+    texts["model"] = texts.apply(
+        lambda r: _m.get(r["text_id"], "") if r["label"] == "ai"
+        else _m.get(_src.get(r["text_id"]), ""), axis=1)
+    texts["humanizer"] = texts.apply(
+        lambda r: _m.get(r["text_id"], "") if r["label"] == "humanized" else "", axis=1)
     ort = texts[["text_id", "label", "model", "prompt_id", "humanizer"]]
 
     tic = sc[["text_id", "detector_name", "score", "binary_label"]].merge(ort, on="text_id")
@@ -164,45 +172,6 @@ def main():
                          n=len(ortak), ham_uyum=None, kappa=None, b01=b01, b10=b10, p=round(p, 5)))
     sat.append("")
 
-    # ---------------- 3. Yon uyumu ----------------
-    sat += ["## 3. Yon uyumu: insanlastirma yapaylik skorunu dusurdu mu", "",
-            "Her eslestirilmis cift icin skorun yonu (dustu / degismedi / yukseldi)",
-            "kaydedilmis, dedektorler bu yon uzerinden karsilastirilmistir. Esik",
-            "gerektirmedigi icin perplexity yaklasimi da bu analize dahildir.", "",
-            "| dedektor | dustu | degismedi | yukseldi | n |",
-            "|---|---|---|---|---|"]
-    yonler = {}
-    for det in tumu:
-        alt = d[d.dedektor == det]
-        ham = alt[alt.label == "ai"].set_index(["model", "prompt_id"]).yapaylik
-        y = {}
-        for _, r in alt[alt.label == "humanized"].iterrows():
-            anahtar = (r["model"], r["prompt_id"])
-            if anahtar not in ham.index:
-                continue
-            fark = r["yapaylik"] - float(ham.loc[anahtar])
-            y[r["text_id"]] = -1 if fark < 0 else (1 if fark > 0 else 0)
-        yonler[det] = y
-        sat.append(f"| {det} | {sum(1 for v in y.values() if v == -1)} | "
-                   f"{sum(1 for v in y.values() if v == 0)} | "
-                   f"{sum(1 for v in y.values() if v == 1)} | {len(y)} |")
-        ozet.append(dict(bolum="yon", karsilastirma=det, kume="insanlastirilmis",
-                         n=len(y),
-                         dustu=sum(1 for v in y.values() if v == -1),
-                         yukseldi=sum(1 for v in y.values() if v == 1)))
-    sat.append("")
-
-    sat += ["Dedektor ciftleri arasinda yon uyumu:", "",
-            "| dedektor cifti | ayni yon | n | oran |", "|---|---|---|---|"]
-    for d1, d2 in combinations(tumu, 2):
-        ortak = sorted(set(yonler[d1]) & set(yonler[d2]))
-        if not ortak:
-            continue
-        ayni = sum(1 for t in ortak if yonler[d1][t] == yonler[d2][t])
-        sat.append(f"| {d1} - {d2} | {ayni} | {len(ortak)} | {ayni / len(ortak):.3f} |")
-        ozet.append(dict(bolum="yon_uyumu", karsilastirma=f"{d1}-{d2}",
-                         kume="insanlastirilmis", n=len(ortak),
-                         ham_uyum=round(ayni / len(ortak), 4)))
     sat += ["", "> Not: n=60 ve alt kumelerde n=20 ile calisildigindan kappa ve",
             "> McNemar sonuclari genis belirsizlik tasir. Sonuclar egilim olarak",
             "> yorumlanmali, kesin nokta tahmini olarak sunulmamalidir.", ""]

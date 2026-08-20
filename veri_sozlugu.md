@@ -29,28 +29,51 @@ bulunmaması, yanlış pozitif oranının bu aşamada ölçülememesinin nedenid
 
 ## 2. `data_raw/texts.csv` — metin tablosu (60 satır)
 
+Alanlar proje metninin 12. bölümünde tanımlanan metin tablosu şemasıyla
+birebir aynıdır. Şemada yer almayan alan eklenmemiştir.
+
 | değişken | açıklama | tür | geçerli değerler | üretim yöntemi |
 |---|---|---|---|---|
 | `text_id` | Metnin tekil kimliği | metin | T001–T060 | elle atanır, tekrar kullanılmaz |
-| `label` | Metnin sınıfı | kategorik | `ai`, `humanized` | üretim aşamasında belirlenir |
-| `prompt_id` | Kullanılan sabit promptun numarası | tam sayı | 1–5 | proje metnindeki beş sabit prompt |
-| `model` | Metni üreten dil modeli | kategorik | `ChatGPT`, `Gemini`, `Claude`, `Kumru` | üretim aşamasında kaydedilir |
-| `humanizer` | İnsanlaştırma aracı | kategorik | `Aithor`, `Rephraser`, boş | `label=ai` ise boş |
-| `source_text_id` | İnsanlaştırmanın uygulandığı kaynak metin | metin | T001–T060, boş | `label=ai` ise boş |
+| `label` | Metnin sınıfı | kategorik | `ai`, `humanized`, `human` | üretim aşamasında belirlenir |
+| `participant_id` | Anonim katılımcı kimliği | metin | boş | yalnızca `label=human` satırlarında dolar; bu aşamada human metni yoktur |
+| `prompt_id` | Kullanılan sabit promptun numarası | tam sayı | 1–5 | `data_raw/promptlar.md` |
 | `raw_text` | Metnin tam hâli | metin | — | araçtan alındığı gibi, düzeltilmeden |
-| `word_count` | Kelime sayısı | tam sayı | 101–132 | `raw_text` boşluklara bölünerek |
+| `word_count` | Kelime sayısı | tam sayı | 97–132 | `raw_text` boşluklara bölünerek |
 | `char_count` | Karakter sayısı | tam sayı | — | `len(raw_text)` |
-| `ai_uzunluk_bandi` | Uzunluk bandına uygunluk | kategorik | `uygun`, `bant disi`, `uygulanmaz` | 100–120 kelime bandı; yalnızca `label=ai` için uygulanır |
-| `ortusme_orani` | Kaynak metinle ortak kelime yüzdesi | ondalık | 19,2–100,0 / boş | kaynak metnin tekil kelimelerinin yüzde kaçının çıktıda korunduğu |
-| `degistirmedi` | Aracın metni hiç değiştirip değiştirmediği | kategorik | `evet`, `hayir`, boş | `ortusme_orani >= 99,9` ise `evet` |
+| `length_band` | Uzunluk bandına uygunluk | kategorik | `uygun`, `bant disi`, `uygulanmaz` | 100–120 kelime bandı; yalnızca `label=ai` için uygulanır |
 
-**Eksik değer gösterimi:** boş hücre. `humanizer`, `source_text_id`,
-`ortusme_orani` ve `degistirmedi` alanları `label=ai` satırlarında tanım
-gereği boştur; bu bir veri eksikliği değildir.
+**Eksik değer gösterimi:** boş hücre. `participant_id` alanı yapay zekâ ve
+insanlaştırılmış metinlerde tanım gereği boştur; bu bir veri eksikliği değildir.
 
 **Uzunluk bandı notu:** 100–120 kelime bandı proje metni gereği katılımcı
 yanıtları ve yapay zekâ metinleri için geçerlidir. İnsanlaştırılmış
 metinlerde bant şartı aranmaz, yalnızca çıktı uzunluğu kaydedilir.
+
+**Üretici model bilgisi burada tutulmaz.** Model, insanlaştırma aracı ve kaynak
+metin bağlantısı proje metni gereği ayrı bir tabloda (`ai_metadata.csv`)
+saklanır.
+
+---
+
+## 2b. `data_raw/ai_metadata.csv` — yapay zekâ metadata tablosu (60 satır)
+
+Proje metninin 12. bölümünde tanımlanan üçüncü tablodur.
+
+| değişken | açıklama | tür | geçerli değerler |
+|---|---|---|---|
+| `text_id` | İlgili metin | metin | T001–T060 |
+| `label` | Metnin sınıfı | kategorik | `ai`, `humanized` |
+| `model_tool` | Metni üreten model veya araç | kategorik | `ChatGPT`, `Gemini`, `Claude`, `Kumru`, `Aithor`, `Rephraser` |
+| `model_version` | Model/araç sürümü | metin | `kaydedilmedi` |
+| `uretim_ayarlari` | Üretim ayarları | metin | sabit yönerge veya ücretsiz sürüm notu |
+| `uretim_tarihi` | Üretim tarihi | metin | `kaydedilmedi` |
+| `source_text_id` | İnsanlaştırmanın uygulandığı kaynak metin | metin | T001–T060, boş |
+
+**Sürüm ve tarih alanları neden boş:** Bu alanlar üretim sırasında
+kaydedilmemiştir ve geriye dönük olarak elde edilemez. Alanlar silinmemiş,
+`kaydedilmedi` değeriyle açıkça işaretlenmiştir. Bu, çalışmanın
+sınırlılıklarından biridir.
 
 ---
 
@@ -107,26 +130,8 @@ Eşiğin değerlendirme verisinden türetilmesi veri sızıntısı oluşturur
 
 ---
 
-## 5. `results/kacirma_ozet.csv` — kaçırma özeti (80 satır)
 
-| değişken | açıklama | geçerli değerler |
-|---|---|---|
-| `model` | Üretici model | dört model adı |
-| `prompt` | Prompt numarası | 1–5 |
-| `dedektor` | Dedektör | `GPTZero`, `ZeroGPT` |
-| `arac` | İnsanlaştırma aracı | `Aithor`, `Rephraser` |
-| `ai` | Ham metnin skoru | 0,000–1,000 |
-| `humanized` | İnsanlaştırılmış metnin skoru | 0,000–1,000 |
-| `fark_puan` | Skor değişimi (yüzde puan) | negatif = dedektörü atlatma yönünde |
-| `aciklama` | Ölçüm notu | boş veya `OLCULEMEZ - taban etkisi` |
-
-**Taban etkisi:** Ham metnin skoru 0 olduğunda insanlaştırmanın skoru
-daha aşağı çekmesi mümkün değildir; bu hücrelerde kaçırma ölçülemez ve
-sıfır olarak raporlanmaz.
-
----
-
-## 6. Kişisel veri ve gizlilik
+## 5. Kişisel veri ve gizlilik
 
 Veri setinde kişisel veri bulunmamaktadır. Tüm metinler dil modelleri
 tarafından üretilmiştir; gerçek kişilere ait yazı, ad, öğrenci numarası

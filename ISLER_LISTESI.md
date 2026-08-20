@@ -21,6 +21,8 @@
 
 - Tüm veri dosyaları tek bir üretim betiğinden (`build_data.py`) oluşturulmakta,
   elle düzenlenmemektedir.
+- Veri tabloları proje metninin 12. bölümündeki şemayla birebir kurulmuştur:
+  metin tablosu, yapay zekâ metadata tablosu ve dedektör skor tablosu.
 - Otomatik kalite denetimi yazıldı; tasarım hücreleri, ölçüm eksiği, uzunluk
   bandı, skor aralığı ve eşik tutarlılığı sınanmaktadır. **0 uyarı ile geçmiştir.**
 - Her değişkenin tanımı, türü ve üretim yöntemi veri sözlüğünde belgelenmiştir.
@@ -29,12 +31,15 @@
 
 ### Analiz
 
-- Yakalama oranları ve Wilson %95 güven aralıkları
-- Eşik geçişi (kaçırma) oranları, araç–dedektör çifti bazında
-- Ayrılabilirlik (AUC), üç dedektör tipi için ortak ölçütle
-- Eşleştirilmiş Wilcoxon işaretli sıra testi, Benjamini–Hochberg düzeltmesiyle
-- Cohen κ, McNemar tam binom testi, yön uyumu analizi
-- Beş sonuç şekli (300 dpi)
+Proje metninin 13. bölümündeki metrik listesi esas alınmış, listede yer almayan
+hiçbir ölçüt eklenmemiştir.
+
+- Yakalama oranı (recall), ham ve insanlaştırılmış metinler için
+- Evasion etkisi: `Recall(ham) − Recall(insanlaştırılmış)`
+- Wilson %95 güven aralıkları
+- Cohen κ ve McNemar tam binom testi
+- Alt grup analizi: metin uzunluğu kırılımı
+- Dört sonuç şekli (300 dpi)
 - Analizler dış istatistik kütüphanesi kullanılmadan yazıldı; betikler depoda.
 
 ### Belgeler
@@ -54,7 +59,10 @@
 | iş | gerekçe |
 |---|---|
 | **Yanlış pozitif oranının ölçülmesi** | İnsan yazımı metin sınıfı gerçek katılımcı verisi gerektirmektedir. Etik kurul süreci staj dönemi içinde sonuçlanmamıştır. Çalışmanın en önemli sınırlılığıdır. |
-| **Perplexity karar eşiğinin kalibre edilmesi** | Eşik, insan metinlerinin dağılımından türetilir. İnsan sınıfı bulunmadığından kalibrasyon yapılamamıştır; eşiğin değerlendirme verisinden türetilmesi veri sızıntısı oluştururdu. |
+| **Perplexity karar eşiğinin kalibre edilmesi** | Eşik, insan metinlerinin dağılımından türetilir. İnsan sınıfı bulunmadığından kalibrasyon yapılamamıştır; eşiğin değerlendirme verisinden türetilmesi veri sızıntısı oluştururdu. Eşik olmadığı için bu yaklaşım recall, evasion ve uyum analizlerine giremez. |
+| **Karma-etkili lojistik regresyon** | Proje metninin 13. bölümünde tanımlıdır; katılımcı düzeyinde kümelenmeyi yönetir. Katılımcı verisi yoktur. |
+| **Sıralı eğilim analizi** | Aynı bölümde tanımlıdır; eğitim seviyesi ve unvan değişkeni katılımcı verisiyle gelir. |
+| **Üretici model sürümü ve üretim tarihi** | Üretim sırasında kaydedilmemiştir; geriye dönük elde edilemez. `ai_metadata.csv` içinde `kaydedilmedi` olarak işaretlidir. |
 | **Etik kurul başvuru formlarının doldurulması** | Form 1, 3, 4 ve 5 danışmanın unvan, bölüm ve iletişim bilgisi ile proje numarasını gerektirmektedir. Bu bilgiler alınamamıştır. Form 2 ve veri protokolü tamamlanmıştır. |
 | **Üçüncü ticari dedektörün eklenmesi** | Copyleaks'in Türkçe desteği bulunduğu, veri toplama tamamlandıktan sonra tespit edilmiştir. Yeniden ölçüm için süre kalmamıştır. |
 | **Ölçüm tekrarlanabilirliğinin sınanması** | Her metin bir kez ölçülmüştür. Ticari araçların kararlılığı sınanamamıştır. |
@@ -72,9 +80,11 @@
    perplexity karar eşiği kalibre edilmelidir.
    *Altyapı hazırdır; kalibrasyon tek komutla yapılmaktadır.*
 
-2. **Metin sınıflarının tamamlanması.** Proje notlarında dört sınıf öngörülmektedir:
-   insan (öğrenci), insan (akademisyen), yapay zekâ ve insanlaştırılmış. Şu anda
-   ilk iki sınıf boştur.
+2. **`human` sınıfının oluşturulması.** Proje metni üç sınıf tanımlamaktadır:
+   `human`, `ai`, `humanized`. Şu anda `human` sınıfı boştur. Öğrenci ve
+   akademisyen ayrımı ayrı bir sınıf etiketi olarak değil, `human` sınıfı
+   içindeki `role_title` ve `education_level_rank` alanlarında tutulacaktır;
+   eğitim seviyesi ekseni sıralı bir değişken olarak analiz edilecektir.
 
 3. **Dil kontrolü.** Aynı beş prompt İngilizceye çevrilerek aynı ölçüm hattından
    geçirilmeli; bulguların Türkçeye özgü olup olmadığı doğrudan sınanmalıdır.

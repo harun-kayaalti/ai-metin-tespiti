@@ -5,7 +5,7 @@ Yozgat Bozok Üniversitesi — KARDEP Projesi
 Zekâ Dedektörlerinin Yanlış Pozitif ve Kaçırma Davranışının Denetlenmesi**
 
 Stajyer: Harun Kayaaltı · Danışman: Dr. Öğr. Üyesi Çağrı Arısoy
-Son güncelleme: 18 Ağustos 2026
+Son güncelleme: 20 Ağustos 2026
 
 ---
 
@@ -44,7 +44,7 @@ Her metin üç dedektör tipiyle ölçülmüştür:
 | tip | araç | ölçüm |
 |---|---|---|
 | çok dilli ticari | GPTZero (Model 4.1m, Advanced) | 60 |
-| ticari-hibrit | ZeroGPT (web arayüzü, Detect Text) | 60 |
+| İngilizce odaklı ticari/hibrit | ZeroGPT (web arayüzü, Detect Text) | 60 |
 | açık kaynak referans | Perplexity — 3 Türkçe dil modeli | 180 |
 
 **Toplam 300 ölçüm.**
@@ -63,15 +63,17 @@ proje/
 ├── ISLER_LISTESI.md           tamamlanan / tamamlanamayan / devam edecek işler
 ├── requirements.txt           paket sürümleri
 ├── veri_sozlugu.md            değişken tanımları
-├── data_raw/                  ham veri — DEĞİŞTİRİLMEZ
-│   ├── texts.csv              60 metin
-│   └── detector_scores.csv    120 ticari dedektör ölçümü
+├── data_raw/                  veri tabloları — DEĞİŞTİRİLMEZ
+│   ├── texts.csv              metin tablosu (60 satır)
+│   ├── ai_metadata.csv        yapay zekâ metadata tablosu (60 satır)
+│   ├── detector_scores.csv    dedektör skor tablosu (120 satır)
+│   └── promptlar.md           beş sabit prompt ve üretim yönergeleri
 ├── src/                       betikler
 │   ├── build_data.py          veri dosyalarını üretir (tek doğruluk kaynağı)
 │   ├── veri_kalite_kontrol.py veri seti denetimi
 │   ├── perplexity_baseline.py açık kaynak referans yaklaşım
-│   ├── metrikler.py           yakalama, AUC, kaçırma, Wilcoxon
-│   ├── uyum.py                kappa, McNemar, yön uyumu
+│   ├── metrikler.py           FPR, recall, evasion etkisi, alt grup
+│   ├── uyum.py                Cohen kappa, McNemar
 │   └── sekiller.py            şekiller
 ├── results/                   üretilen tablolar
 ├── figures/                   üretilen şekiller
@@ -137,16 +139,16 @@ Her adım bir öncekinin çıktısına bağımlıdır; sıra değiştirilmemelid
 
 | dosya | içerik |
 |---|---|
-| `data_raw/texts.csv` | 60 metin, uzunluk ve dönüşüm ölçüleri |
-| `data_raw/detector_scores.csv` | 120 ticari dedektör ölçümü |
+| `data_raw/texts.csv` | metin tablosu, 60 satır |
+| `data_raw/ai_metadata.csv` | yapay zekâ metadata tablosu, 60 satır |
+| `data_raw/detector_scores.csv` | dedektör skor tablosu, 120 satır |
 | `results/veri_kalite_kontrol.md` | veri seti denetim raporu |
 | `results/perplexity_scores.csv` | 180 perplexity ölçümü |
 | `results/perplexity_model_bilgisi.txt` | kod sürümü, dil modelleri, eşik durumu |
 | `results/perplexity_karsilastirma.md` | perplexity sonuçları |
-| `results/kacirma_ozet.csv` | prompt bazında kaçırma tablosu |
-| `results/metrikler.md` | yakalama, AUC, kaçırma, Wilcoxon |
-| `results/uyum.md` | kappa, McNemar, yön uyumu |
-| `figures/sekil1..5.png` | sonuç şekilleri |
+| `results/metrikler.md` | FPR, recall, evasion etkisi, alt grup analizi |
+| `results/uyum.md` | Cohen kappa, McNemar |
+| `figures/sekil1..4.png` | sonuç şekilleri |
 
 ---
 
@@ -178,6 +180,12 @@ Etik onay sonrasında katılımcı metni toplanması hâlinde:
    `results/perplexity_model_bilgisi.txt` içinde kayıtlıdır.
 5. **Ticari araçlar zamanla değişir.** Dedektör sürümleri ve ölçüm tarihleri
    kaydedilmiştir; ileride tekrarlanan ölçümler farklı sonuç verebilir.
+6. **Üretici model sürümü ve üretim tarihi kaydedilmemiştir.**
+   `ai_metadata.csv` içinde bu alanlar `kaydedilmedi` olarak işaretlidir ve
+   geriye dönük elde edilemez.
+7. **Karma-etkili lojistik regresyon ve sıralı eğilim analizi
+   uygulanamamıştır.** Proje metninin 13. bölümünde tanımlıdırlar; katılımcı
+   düzeyinde kümelenme ve unvan değişkeni gerektirirler.
 
 ---
 

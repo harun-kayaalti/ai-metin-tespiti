@@ -83,12 +83,12 @@ pip install -r requirements.txt
 ### Tüm sonuçları yeniden üretme
 
 ```bash
-python src/build_data.py
-python src/veri_kalite_kontrol.py
-python src/perplexity_baseline.py
-python src/metrikler.py
-python src/uyum.py
-python src/sekiller.py
+python src/build_data.py            # metin, metadata ve skor tablolarini uretir
+python src/veri_kalite_kontrol.py   # veri seti denetimi (0 uyari beklenir)
+python src/perplexity_baseline.py   # acik kaynak referans olcumleri
+python src/metrikler.py             # FPR, recall, evasion etkisi, alt grup
+python src/uyum.py                  # Cohen kappa, McNemar
+python src/sekiller.py              # sekiller
 ```
 
 Sıra değiştirilmemelidir. `perplexity_baseline.py` ilk çalıştırmada yaklaşık

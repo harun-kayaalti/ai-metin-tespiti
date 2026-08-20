@@ -320,25 +320,43 @@ SKORLAR = [
 ]
 
 # ----------------------------------------------------------------------
-texts = pd.DataFrame(METINLER)
-texts["word_count"] = texts["raw_text"].str.split().str.len()
-texts["char_count"] = texts["raw_text"].str.len()
-texts["ai_uzunluk_bandi"] = texts.apply(
+# ----------------------------------------------------------------------
+# KARDEP Bolum 12 -- veri tablolari
+#
+#   Metin tablosu               : text_id, label, participant_id, prompt_id,
+#                                 raw_text, word_count, char_count, length_band
+#   Yapay zeka metadata tablosu : text_id, model/tool, surum/tarih,
+#                                 uretim ayarlari, kaynak metin baglantisi
+#   Dedektor skor tablosu       : text_id, detector_name, detector_version/date,
+#                                 score, binary_label, threshold, run_date
+#
+# Proje metninde tanimlanmayan alan eklenmemistir.
+# ----------------------------------------------------------------------
+_t = pd.DataFrame(METINLER)
+_t["word_count"] = _t["raw_text"].str.split().str.len()
+_t["char_count"] = _t["raw_text"].str.len()
+_t["length_band"] = _t.apply(
     lambda r: "uygulanmaz" if r["label"] != "ai"
     else ("uygun" if 100 <= r["word_count"] <= 120 else "bant disi"), axis=1)
+# participant_id yalnizca human sinifinda dolar; bu asamada human metni yoktur.
+_t["participant_id"] = ""
 
-# Kelime ortusme orani: insanlastirilmis metnin kaynak metinle ortak kelime yuzdesi.
-# Donusum gucunun vekil olcusudur; %100 = arac metni hic degistirmemistir.
-_kelime = {r["text_id"]: set(r["raw_text"].split()) for _, r in texts.iterrows()}
-def _ortusme(r):
-    src = r["source_text_id"]
-    if r["label"] != "humanized" or not isinstance(src, str) or src not in _kelime:
-        return None
-    a = _kelime[src]
-    return round(len(a & _kelime[r["text_id"]]) / len(a) * 100, 1) if a else None
-texts["ortusme_orani"] = texts.apply(_ortusme, axis=1)
-texts["degistirmedi"] = texts["ortusme_orani"].apply(
-    lambda v: "evet" if v is not None and v >= 99.9 else ("hayir" if v is not None else ""))
+texts = _t[["text_id", "label", "participant_id", "prompt_id", "raw_text",
+            "word_count", "char_count", "length_band"]]
+
+# Yapay zeka metadata tablosu (KARDEP Bolum 12).
+# Uretim ayarlari ve model surumu uretim sirasinda kaydedilmemistir; alanlar
+# bos birakilmayip acik biçimde "kaydedilmedi" olarak isaretlenmistir.
+meta = _t[_t.label.isin(["ai", "humanized"])].copy()
+meta["model_tool"] = meta.apply(
+    lambda r: r["humanizer"] if r["label"] == "humanized" else r["model"], axis=1)
+meta["model_version"] = "kaydedilmedi"
+meta["uretim_ayarlari"] = meta["label"].apply(
+    lambda l: "sabit yonerge; bkz. data_raw/promptlar.md" if l == "ai"
+    else "ucretsiz surum, varsayilan ayarlar")
+meta["uretim_tarihi"] = "kaydedilmedi"
+ai_metadata = meta[["text_id", "label", "model_tool", "model_version",
+                    "uretim_ayarlari", "uretim_tarihi", "source_text_id"]]
 
 scores = pd.DataFrame(SKORLAR)
 
@@ -346,31 +364,11 @@ os.makedirs("data_raw", exist_ok=True)
 os.makedirs("results", exist_ok=True)
 texts.to_csv("data_raw/texts.csv", index=False, encoding="utf-8-sig")
 scores.to_csv("data_raw/detector_scores.csv", index=False, encoding="utf-8-sig")
+ai_metadata.to_csv("data_raw/ai_metadata.csv", index=False, encoding="utf-8-sig")
 
-print(texts.groupby(["model","label"]).size().to_string())
+print(_t.groupby(["model","label"]).size().to_string())
 print()
 print("Toplam metin:", len(texts), "| Toplam olcum:", len(scores))
 print()
 
-m = scores.merge(texts[["text_id","prompt_id","label","humanizer","model"]], on="text_id")
-satirlar = []
-for (mdl, pid), _ in m.groupby(["model","prompt_id"]):
-    ai_ids = texts[(texts.model==mdl)&(texts.prompt_id==pid)&(texts.label=="ai")]["text_id"].tolist()
-    if not ai_ids: continue
-    ai_id = ai_ids[0]
-    for d in sorted(m.detector_name.unique()):
-        sub = m[(m.model==mdl)&(m.prompt_id==pid)&(m.detector_name==d)].set_index("text_id")
-        if ai_id not in sub.index: continue
-        base = float(sub.loc[ai_id,"score"])
-        for tid in sub.index:
-            if tid == ai_id: continue
-            arac = texts.loc[texts.text_id==tid,"humanizer"].values[0]
-            val = float(sub.loc[tid,"score"])
-            satirlar.append(dict(model=mdl, prompt=pid, dedektor=d, arac=arac,
-                                 ai=round(base,3), humanized=round(val,3),
-                                 fark_puan=round((val-base)*100,1),
-                                 aciklama="OLCULEMEZ - taban etkisi" if base<=0.0 else ""))
-ev = pd.DataFrame(satirlar)
-ev.to_csv("results/kacirma_ozet.csv", index=False, encoding="utf-8-sig")
-print(ev.to_string(index=False))
-print("\nKaydedildi -> data_raw/ ve results/")
+print("Kaydedildi -> data_raw/texts.csv, detector_scores.csv, ai_metadata.csv")

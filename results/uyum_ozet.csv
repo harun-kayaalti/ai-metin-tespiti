@@ -1,20 +1,5 @@
-﻿bolum,karsilastirma,kume,n,ham_uyum,kappa,b01,b10,p,dustu,yukseldi
-kappa,GPTZero-ZeroGPT,tum metinler,60,0.4667,-0.0847,,,,,
-kappa,GPTZero-ZeroGPT,ham yapay,20,0.45,-0.1,,,,,
-kappa,GPTZero-ZeroGPT,insanlastirilmis,40,0.475,-0.066,,,,,
-mcnemar,GPTZero-ZeroGPT,ham yapay,20,,,10.0,1.0,0.01172,,
-yon,GPTZero,insanlastirilmis,40,,,,,,28.0,3.0
-yon,ZeroGPT,insanlastirilmis,40,,,,,,10.0,10.0
-yon,Perplexity: turkish-gpt2,insanlastirilmis,40,,,,,,28.0,9.0
-yon,Perplexity: turkish-gpt2-large,insanlastirilmis,40,,,,,,30.0,7.0
-yon,Perplexity: gpt2-turkish-cased,insanlastirilmis,40,,,,,,23.0,14.0
-yon_uyumu,GPTZero-ZeroGPT,insanlastirilmis,40,0.35,,,,,,
-yon_uyumu,GPTZero-Perplexity: turkish-gpt2,insanlastirilmis,40,0.65,,,,,,
-yon_uyumu,GPTZero-Perplexity: turkish-gpt2-large,insanlastirilmis,40,0.625,,,,,,
-yon_uyumu,GPTZero-Perplexity: gpt2-turkish-cased,insanlastirilmis,40,0.55,,,,,,
-yon_uyumu,ZeroGPT-Perplexity: turkish-gpt2,insanlastirilmis,40,0.375,,,,,,
-yon_uyumu,ZeroGPT-Perplexity: turkish-gpt2-large,insanlastirilmis,40,0.375,,,,,,
-yon_uyumu,ZeroGPT-Perplexity: gpt2-turkish-cased,insanlastirilmis,40,0.4,,,,,,
-yon_uyumu,Perplexity: turkish-gpt2-Perplexity: turkish-gpt2-large,insanlastirilmis,40,0.85,,,,,,
-yon_uyumu,Perplexity: turkish-gpt2-Perplexity: gpt2-turkish-cased,insanlastirilmis,40,0.825,,,,,,
-yon_uyumu,Perplexity: turkish-gpt2-large-Perplexity: gpt2-turkish-cased,insanlastirilmis,40,0.775,,,,,,
+﻿bolum,karsilastirma,kume,n,ham_uyum,kappa,b01,b10,p
+kappa,GPTZero-ZeroGPT,tum metinler,60,0.4667,-0.0847,,,
+kappa,GPTZero-ZeroGPT,ham yapay,20,0.45,-0.1,,,
+kappa,GPTZero-ZeroGPT,insanlastirilmis,40,0.475,-0.066,,,
+mcnemar,GPTZero-ZeroGPT,ham yapay,20,,,10.0,1.0,0.01172

@@ -21,6 +21,17 @@ BANT      = (100, 120)          # KARDEP s.6.2 uzunluk bandi (yalnizca ai)
 ESIK      = 0.50
 
 texts  = pd.read_csv("data_raw/texts.csv")
+meta   = pd.read_csv("data_raw/ai_metadata.csv")
+# KARDEP Bolum 12: model/arac bilgisi ayri metadata tablosundadir.
+texts  = texts.merge(meta[["text_id", "model_tool", "source_text_id"]],
+                     on="text_id", how="left")
+texts["model"] = texts.apply(
+    lambda r: r["model_tool"] if r["label"] == "ai" else
+    (meta.loc[meta.text_id == r["source_text_id"], "model_tool"].iloc[0]
+     if isinstance(r["source_text_id"], str) and
+        (meta.text_id == r["source_text_id"]).any() else ""), axis=1)
+texts["humanizer"] = texts.apply(
+    lambda r: r["model_tool"] if r["label"] == "humanized" else "", axis=1)
 scores = pd.read_csv("data_raw/detector_scores.csv")
 DEDEKTORLER = sorted(scores.detector_name.unique())
 
@@ -109,33 +120,25 @@ yaz("cikti uzunlugu kaydedilir.")
 yaz()
 
 # ----------------------------------------------------------------------
-yaz("## 3. Donusum gucu ve degistirilmemis ciktilar")
+yaz("## 3. Yapay zeka metadata tablosu")
 yaz()
-hum = texts[texts.label == "humanized"]
-yaz("| arac | metin | ortalama ortusme % | en dusuk | degistirmedi |")
-yaz("|---|---|---|---|---|")
-for arac in ARACLAR:
-    a = hum[hum.humanizer == arac]
-    yaz(f"| {arac} | {len(a)} | {a.ortusme_orani.mean():.1f} | "
-        f"{a.ortusme_orani.min():.1f} | {(a.degistirmedi == 'evet').sum()} |")
+yaz(f"Metadata kaydi: {len(meta)} satir.")
 yaz()
-ayni = hum[hum.degistirmedi == "evet"]
-if len(ayni):
-    yaz("Girdi metnini degistirmeden donduren kayitlar:")
-    yaz()
-    yaz("| text_id | model | prompt | arac | kaynak |")
-    yaz("|---|---|---|---|---|")
-    for _, r in ayni.iterrows():
-        yaz(f"| {r.text_id} | {r.model} | {r.prompt_id} | {r.humanizer} | {r.source_text_id} |")
-    yaz()
-    yaz("Bu kayitlar veri setinden cikarilmamistir. Kacirma etkisi bu ")
-    yaz("durumlarda tanim geregi sifirdir; analizde tum metinler ve ")
-    yaz("ortusme orani %95 altindaki metinler icin iki ayri kesit raporlanir.")
+yaz("| alan | durum |")
+yaz("|---|---|")
+yaz("| model_tool | dolu |")
+yaz("| model_version | kaydedilmedi (uretim sirasinda alinmamistir) |")
+yaz("| uretim_ayarlari | dolu |")
+yaz("| uretim_tarihi | kaydedilmedi |")
+yaz("| source_text_id | insanlastirilmis kayitlarda dolu |")
+yaz()
+eksik_src = meta[(meta.label == "humanized") & (meta.source_text_id.isna())]
+if len(eksik_src):
+    uyari(f"{len(eksik_src)} insanlastirilmis kayitta kaynak metin baglantisi yok.")
 else:
-    yaz("Girdi metnini degistirmeden donduren kayit bulunmamaktadir.")
+    yaz("Tum insanlastirilmis kayitlarda kaynak metin baglantisi mevcuttur.")
 yaz()
 
-# ----------------------------------------------------------------------
 yaz("## 4. Taban ve tavan etkisi")
 yaz()
 yaz("Ham metnin skoru 0 ise kacirma etkisi olculemez (taban etkisi); ")

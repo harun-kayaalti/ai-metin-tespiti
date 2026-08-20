@@ -43,8 +43,24 @@ desktop.ini
 *.synctex.gz
 *.toc
 
-# NOT: data_raw/, results/ ve figures/ klasorleri DEPOYA DAHILDIR.
-# Bu proje kisisel veri icermez; tum metinler dil modelleri tarafindan
-# uretilmistir. Etik onay sonrasi katilimci metni toplanmasi halinde
-# asagidaki satir etkinlestirilmelidir:
-# data_raw/insan_metinleri.csv
+# ---------------------------------------------------------------
+# KARDEP Bolum 12 -- veri yonetimi kurallari
+#
+# "Ham veriler erisimi sinirli, sifreli bir depolama alaninda saklanacaktir.
+#  Yayin veya veri paylasimi yapilacaksa yalnizca anonimlestirilmis metinler
+#  ve gerekli metadata paylasilacaktir."
+#
+# Depoda bulunan metinlerin tamami dil modelleri tarafindan uretilmistir;
+# katilimci kaynakli metin, kimlik bilgisi veya kisisel veri icermezler.
+# Bu nedenle anonimlestirilmis veri kapsamindadirlar ve paylasilabilirler.
+#
+# Katilimci metinleri toplandiginda ham form indirmeleri ve kimlik iceren
+# hicbir dosya depoya girmeyecektir. Asagidaki kurallar bu amacla
+# onceden etkinlestirilmistir.
+# ---------------------------------------------------------------
+data_raw/ham_form_*.csv
+data_raw/ham_form_*.xlsx
+data_raw/katilimci_*.csv
+data_raw/insan_metinleri_ham.csv
+data_raw/kimlik_*
+*.ham.csv

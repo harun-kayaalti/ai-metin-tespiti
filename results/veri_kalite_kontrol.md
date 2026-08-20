@@ -1,6 +1,6 @@
 # Veri Kalite Kontrol Raporu
 
-Uretim tarihi: 2026-08-11
+Uretim tarihi: 2026-08-20
 
 Bu rapor `veri_kalite_kontrol.py` tarafindan otomatik uretilmistir. 
 Betik hicbir kaydi silmez veya degistirmez; yalnizca veri setinin 
@@ -36,24 +36,19 @@ Not: Uzunluk bandi proje metni geregi yalnizca yapay zeka metinleri icin
 gecerlidir. Insanlastirilmis metinlerde bant sarti aranmaz, yalnizca 
 cikti uzunlugu kaydedilir.
 
-## 3. Donusum gucu ve degistirilmemis ciktilar
+## 3. Yapay zeka metadata tablosu
 
-| arac | metin | ortalama ortusme % | en dusuk | degistirmedi |
-|---|---|---|---|---|
-| Aithor | 20 | 82.0 | 39.4 | 3 |
-| Rephraser | 20 | 49.4 | 19.2 | 0 |
+Metadata kaydi: 60 satir.
 
-Girdi metnini degistirmeden donduren kayitlar:
+| alan | durum |
+|---|---|
+| model_tool | dolu |
+| model_version | kaydedilmedi (uretim sirasinda alinmamistir) |
+| uretim_ayarlari | dolu |
+| uretim_tarihi | kaydedilmedi |
+| source_text_id | insanlastirilmis kayitlarda dolu |
 
-| text_id | model | prompt | arac | kaynak |
-|---|---|---|---|---|
-| T032 | Claude | 1 | Aithor | T031 |
-| T041 | Claude | 4 | Aithor | T040 |
-| T044 | Claude | 5 | Aithor | T043 |
-
-Bu kayitlar veri setinden cikarilmamistir. Kacirma etkisi bu 
-durumlarda tanim geregi sifirdir; analizde tum metinler ve 
-ortusme orani %95 altindaki metinler icin iki ayri kesit raporlanir.
+Tum insanlastirilmis kayitlarda kaynak metin baglantisi mevcuttur.
 
 ## 4. Taban ve tavan etkisi
 

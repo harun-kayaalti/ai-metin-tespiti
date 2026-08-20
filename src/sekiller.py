@@ -48,6 +48,15 @@ def kaydet(fig, ad):
 # ----------------------------------------------------------------------
 texts = pd.read_csv("data_raw/texts.csv")
 sc = pd.read_csv("data_raw/detector_scores.csv")
+meta = pd.read_csv("data_raw/ai_metadata.csv")
+# KARDEP Bolum 12: model/arac bilgisi ayri metadata tablosundadir.
+_m = dict(zip(meta.text_id, meta.model_tool))
+_src = dict(zip(meta.text_id, meta.source_text_id))
+texts["model"] = texts.apply(
+    lambda r: _m.get(r["text_id"], "") if r["label"] == "ai"
+    else _m.get(_src.get(r["text_id"]), ""), axis=1)
+texts["humanizer"] = texts.apply(
+    lambda r: _m.get(r["text_id"], "") if r["label"] == "humanized" else "", axis=1)
 ort = texts[["text_id", "label", "model", "prompt_id", "humanizer"]]
 d = sc.merge(ort, on="text_id")
 
@@ -77,30 +86,27 @@ ax.legend(frameon=False)
 kaydet(fig, "sekil1_ham_yakalama.png")
 
 
-# ---------------- Sekil 2: esik gecisi (kacirma) ----------------
+# ---------------- Sekil 2: evasion etkisi (KARDEP Bolum 13) ----------------
+# Evasion etkisi = Recall(ham) - Recall(insanlastirilmis)
 fig, ax = plt.subplots(figsize=(7, 4))
 x0 = range(len(ARACLAR))
 for i, det in enumerate(DEDEKTORLER):
     alt = d[d.detector_name == det]
-    ham = alt[alt.label == "ai"].set_index(["model", "prompt_id"]).binary_label
-    p, lo, hi = [], [], []
+    r_ham = alt[alt.label == "ai"].binary_label.mean()
+    etki = []
     for arac in ARACLAR:
         h = alt[(alt.label == "humanized") & (alt.humanizer == arac)]
-        k = n = 0
-        for _, r in h.iterrows():
-            a = (r["model"], r["prompt_id"])
-            if a in ham.index and int(ham.loc[a]) == 1:
-                n += 1; k += int(r["binary_label"] == 0)
-        pp, l, hh = wilson(k, n)
-        p.append(pp); lo.append(pp - l); hi.append(hh - pp)
-    ax.bar([x + (i - 0.5) * gen for x in x0], p, gen,
-           yerr=[lo, hi], capsize=3, label=det,
-           color=RENK.get(det, "#777777"), edgecolor="black", linewidth=0.5)
+        etki.append(r_ham - h.binary_label.mean())
+    ax.bar([x + (i - 0.5) * gen for x in x0], etki, gen,
+           label=det, color=RENK.get(det, "#777777"),
+           edgecolor="black", linewidth=0.5)
+ax.axhline(0, lw=0.8, color="black")
 ax.set_xticks(list(x0)); ax.set_xticklabels(ARACLAR)
-ax.set_ylim(0, 1.05); ax.set_ylabel("Eşiği geçen metin oranı")
-ax.set_title("İnsanlaştırma sonrası kaçırma oranı\n(%95 Wilson güven aralığı)")
+ax.set_ylabel("Evasion etkisi (recall düşüşü)")
+ax.set_title("İnsanlaştırmanın yakalama oranı üzerindeki etkisi\n"
+             "Recall(ham) − Recall(insanlaştırılmış)")
 ax.legend(frameon=False)
-kaydet(fig, "sekil2_kacirma.png")
+kaydet(fig, "sekil2_evasion_etkisi.png")
 
 
 # ---------------- Sekil 3: iki dedektor ayni metinde ne diyor ----------------
@@ -123,30 +129,7 @@ if len(DEDEKTORLER) >= 2:
     kaydet(fig, "sekil3_dedektor_uyumu.png")
 
 
-# ---------------- Sekil 4: donusum orani ile skor degisimi ----------------
-if "ortusme_orani" in texts.columns:
-    fig, ax = plt.subplots(figsize=(7, 4))
-    for det in DEDEKTORLER:
-        alt = d[d.detector_name == det]
-        ham = alt[alt.label == "ai"].set_index(["model", "prompt_id"]).score
-        xs, ys = [], []
-        for _, r in alt[alt.label == "humanized"].iterrows():
-            a = (r["model"], r["prompt_id"])
-            o = texts.loc[texts.text_id == r["text_id"], "ortusme_orani"]
-            if a in ham.index and len(o) and pd.notna(o.iloc[0]):
-                xs.append(float(o.iloc[0]))
-                ys.append((r["score"] - float(ham.loc[a])) * 100)
-        ax.scatter(xs, ys, s=40, alpha=0.75, edgecolor="black", linewidth=0.4,
-                   color=RENK.get(det, "#777777"), label=det)
-    ax.axhline(0, lw=0.8, color="black")
-    ax.set_xlabel("Kaynak metinle kelime örtüşmesi (%)")
-    ax.set_ylabel("Skor değişimi (yüzde puan)")
-    ax.set_title("Dönüşüm miktarı ile skor değişimi arasındaki ilişki")
-    ax.legend(frameon=False)
-    kaydet(fig, "sekil4_ortusme_skor.png")
-
-
-# ---------------- Sekil 5: perplexity dagilimi ----------------
+# ---------------- Sekil 4: perplexity dagilimi ----------------
 yol = "results/perplexity_scores.csv"
 if os.path.exists(yol):
     try:
@@ -174,6 +157,6 @@ if os.path.exists(yol):
         ax.set_xticks(konum); ax.set_xticklabels(etiket, fontsize=8)
         ax.set_ylabel("Perplexity")
         ax.set_title("Ham ve insanlaştırılmış metinlerde perplexity dağılımı")
-        kaydet(fig, "sekil5_perplexity_dagilim.png")
+        kaydet(fig, "sekil4_perplexity_dagilim.png")
 
 print("\nTum sekiller figures/ klasorune yazildi.")

@@ -217,6 +217,18 @@ def main():
         sys.exit(f"HATA: {a.girdi} bulunamadi. Once build_data.py calistirilmali.")
 
     texts = pd.read_csv(a.girdi)
+    # KARDEP Bolum 12: uretici model ve arac bilgisi ayri metadata tablosundadir.
+    _mp = os.path.join(os.path.dirname(a.girdi), "ai_metadata.csv")
+    if os.path.exists(_mp) and "model" not in texts.columns:
+        _md = pd.read_csv(_mp)
+        _m = dict(zip(_md.text_id, _md.model_tool))
+        _src = dict(zip(_md.text_id, _md.source_text_id))
+        texts["model"] = texts.apply(
+            lambda r: _m.get(r["text_id"], "") if r["label"] == "ai"
+            else _m.get(_src.get(r["text_id"]), ""), axis=1)
+        texts["humanizer"] = texts.apply(
+            lambda r: _m.get(r["text_id"], "") if r["label"] == "humanized" else "",
+            axis=1)
     modeller = MODEL_ADAYLARI if a.model is None else [MODEL_ADAYLARI[a.model]]
 
     import torch

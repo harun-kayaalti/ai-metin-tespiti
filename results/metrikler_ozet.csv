@@ -1,40 +1,30 @@
-﻿bolum,dedektor,grup,deger,alt,ust,n
-yakalama,GPTZero,TUMU,0.95,0.7639,0.9911,20
-yakalama,GPTZero,ChatGPT,1.0,0.5655,1.0,5
-yakalama,GPTZero,Claude,1.0,0.5655,1.0,5
-yakalama,GPTZero,Gemini,1.0,0.5655,1.0,5
-yakalama,GPTZero,Kumru,0.8,0.3755,0.9638,5
-yakalama,ZeroGPT,TUMU,0.5,0.2993,0.7007,20
-yakalama,ZeroGPT,ChatGPT,0.8,0.3755,0.9638,5
-yakalama,ZeroGPT,Claude,0.4,0.1176,0.7693,5
-yakalama,ZeroGPT,Gemini,0.2,0.0362,0.6245,5
-yakalama,ZeroGPT,Kumru,0.6,0.2307,0.8824,5
-auc,GPTZero,TUMU,0.7462,,,40
-auc,GPTZero,Aithor,0.605,,,20
-auc,GPTZero,Rephraser,0.8875,,,20
-auc,ZeroGPT,TUMU,0.5225,,,40
-auc,ZeroGPT,Aithor,0.575,,,20
-auc,ZeroGPT,Rephraser,0.47,,,20
-auc,Perplexity: turkish-gpt2,TUMU,0.6219,,,40
-auc,Perplexity: turkish-gpt2,Aithor,0.5962,,,20
-auc,Perplexity: turkish-gpt2,Rephraser,0.6475,,,20
-auc,Perplexity: turkish-gpt2-large,TUMU,0.6331,,,40
-auc,Perplexity: turkish-gpt2-large,Aithor,0.5988,,,20
-auc,Perplexity: turkish-gpt2-large,Rephraser,0.6675,,,20
-auc,Perplexity: gpt2-turkish-cased,TUMU,0.6069,,,40
-auc,Perplexity: gpt2-turkish-cased,Aithor,0.6038,,,20
-auc,Perplexity: gpt2-turkish-cased,Rephraser,0.61,,,20
-esik_gecisi,GPTZero,Aithor,0.1579,0.0552,0.3757,19
-esik_gecisi,GPTZero,Rephraser,0.4737,0.2733,0.6829,19
-esik_gecisi,ZeroGPT,Aithor,0.2,0.0567,0.5098,10
-esik_gecisi,ZeroGPT,Rephraser,0.2,0.0567,0.5098,10
-wilcoxon,GPTZero,Aithor,-0.1165,-1.8236,0.06822,11
-wilcoxon,GPTZero,Rephraser,-0.4215,-3.9016,0.0001,20
-wilcoxon,ZeroGPT,Aithor,-0.0886,-1.4703,0.14148,8
-wilcoxon,ZeroGPT,Rephraser,0.0678,-1.059,0.28959,12
-wilcoxon,Perplexity: turkish-gpt2,Aithor,-4.3184,-2.6983,0.00697,17
-wilcoxon,Perplexity: turkish-gpt2,Rephraser,-6.9628,-2.5946,0.00947,20
-wilcoxon,Perplexity: turkish-gpt2-large,Aithor,-2.9133,-3.1243,0.00178,17
-wilcoxon,Perplexity: turkish-gpt2-large,Rephraser,-6.0551,-3.0799,0.00207,20
-wilcoxon,Perplexity: gpt2-turkish-cased,Aithor,-11.1322,-2.2722,0.02307,17
-wilcoxon,Perplexity: gpt2-turkish-cased,Rephraser,-11.6437,-2.1466,0.03182,20
+bolum,dedektor,kirilim,k,n,oran,alt_sinir,ust_sinir
+FPR,-,insan sinifi yok,0,0,-,-,-
+recall_ham,GPTZero,tum,19,20,"0,950","0,764","0,991"
+recall_ham,ZeroGPT,tum,10,20,"0,500","0,299","0,701"
+recall_ham,GPTZero,ChatGPT,5,5,"1,000","0,566","1,000"
+recall_ham,GPTZero,Claude,5,5,"1,000","0,566","1,000"
+recall_ham,GPTZero,Gemini,5,5,"1,000","0,566","1,000"
+recall_ham,GPTZero,Kumru,4,5,"0,800","0,376","0,964"
+recall_ham,ZeroGPT,ChatGPT,4,5,"0,800","0,376","0,964"
+recall_ham,ZeroGPT,Claude,2,5,"0,400","0,118","0,769"
+recall_ham,ZeroGPT,Gemini,1,5,"0,200","0,036","0,624"
+recall_ham,ZeroGPT,Kumru,3,5,"0,600","0,231","0,882"
+recall_humanized,GPTZero,Aithor,16,20,"0,800","0,584","0,919"
+recall_humanized,GPTZero,Rephraser,10,20,"0,500","0,299","0,701"
+recall_humanized,ZeroGPT,Aithor,8,20,"0,400","0,219","0,613"
+recall_humanized,ZeroGPT,Rephraser,13,20,"0,650","0,433","0,819"
+evasion_etkisi,GPTZero,Aithor,,,"+0,150",,
+evasion_etkisi,GPTZero,Rephraser,,,"+0,450",,
+evasion_etkisi,ZeroGPT,Aithor,,,"+0,100",,
+evasion_etkisi,ZeroGPT,Rephraser,,,"-0,150",,
+evasion_etkisi,GPTZero,tum araclar,,,"+0,300",,
+evasion_etkisi,ZeroGPT,tum araclar,,,"-0,025",,
+altgrup_uzunluk_ham,GPTZero,medyan alti,8,9,"0,889","0,565","0,980"
+altgrup_uzunluk_ham,GPTZero,medyan ustu,11,11,"1,000","0,741","1,000"
+altgrup_uzunluk_insanlastirilmis,GPTZero,medyan alti,13,21,"0,619","0,409","0,792"
+altgrup_uzunluk_insanlastirilmis,GPTZero,medyan ustu,13,19,"0,684","0,460","0,846"
+altgrup_uzunluk_ham,ZeroGPT,medyan alti,4,9,"0,444","0,189","0,733"
+altgrup_uzunluk_ham,ZeroGPT,medyan ustu,6,11,"0,545","0,280","0,787"
+altgrup_uzunluk_insanlastirilmis,ZeroGPT,medyan alti,11,21,"0,524","0,324","0,717"
+altgrup_uzunluk_insanlastirilmis,ZeroGPT,medyan ustu,10,19,"0,526","0,317","0,727"

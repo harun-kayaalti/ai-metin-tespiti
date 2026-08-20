@@ -1,92 +1,90 @@
-# Metrik Sonuclari
+# KARDEP Bolum 13 -- Metrikler
 
-Uretim tarihi: 2026-08-12
+Metin: 60 | Olcum: 120 | Dedektor: 2
 
-Metin: 60 | Dedektor: 5 | Toplam olcum: 300
+Bu dosya yalnizca proje metninin 13. bolumunde tanimlanan metrikleri icerir.
 
-Guven araliklari Wilson skor yontemiyle, %95 duzeyinde hesaplanmistir.
 
-## 1. Ham yapay metinlerde yakalama orani
+## 1. Yanlis pozitif orani (FPR)
 
-Yalnizca ticari dedektorler icin hesaplanabilir; perplexity
-yaklasiminda karar esigi kalibre edilmemistir.
+Projenin ana metrigidir. Insan yazimi metin sinifi bu asamada olusturulamadigindan hesaplanamamistir. Katilimci metinleri etik kurul onayina baglidir.
 
-| dedektor | uretici model | yakalanan | n | oran | %95 GA |
-|---|---|---|---|---|---|
-| GPTZero | TUMU | 19 | 20 | 0.950 | [0.764, 0.991] |
-| GPTZero | ChatGPT | 5 | 5 | 1.000 | [0.566, 1.000] |
-| GPTZero | Claude | 5 | 5 | 1.000 | [0.566, 1.000] |
-| GPTZero | Gemini | 5 | 5 | 1.000 | [0.566, 1.000] |
-| GPTZero | Kumru | 4 | 5 | 0.800 | [0.376, 0.964] |
-| ZeroGPT | TUMU | 10 | 20 | 0.500 | [0.299, 0.701] |
-| ZeroGPT | ChatGPT | 4 | 5 | 0.800 | [0.376, 0.964] |
-| ZeroGPT | Claude | 2 | 5 | 0.400 | [0.118, 0.769] |
-| ZeroGPT | Gemini | 1 | 5 | 0.200 | [0.036, 0.624] |
-| ZeroGPT | Kumru | 3 | 5 | 0.600 | [0.231, 0.882] |
 
-## 2. Ayirt etme gucu (AUC)
+## 2. Recall / yakalama orani -- ham yapay zeka metinleri
 
-Ham yapay metinler ile insanlastirilmis metinlerin ayrilabilirligi.
-0,50 = hic ayirt edemiyor, 1,00 = kusursuz ayiriyor. Esik
-gerektirmedigi icin ucuncu dedektor tipi de ayni olcute girer.
+Ham yapay zeka metinlerinin dedektorler tarafindan yakalanma orani.
 
-| dedektor | karsilastirma | n(ham) | n(insanlastirilmis) | AUC |
+| Dedektor | Yakalanan | n | Recall | Wilson %95 |
 |---|---|---|---|---|
-| GPTZero | TUMU | 20 | 40 | 0.746 |
-| GPTZero | Aithor | 20 | 20 | 0.605 |
-| GPTZero | Rephraser | 20 | 20 | 0.887 |
-| ZeroGPT | TUMU | 20 | 40 | 0.522 |
-| ZeroGPT | Aithor | 20 | 20 | 0.575 |
-| ZeroGPT | Rephraser | 20 | 20 | 0.470 |
-| Perplexity: turkish-gpt2 | TUMU | 20 | 40 | 0.622 |
-| Perplexity: turkish-gpt2 | Aithor | 20 | 20 | 0.596 |
-| Perplexity: turkish-gpt2 | Rephraser | 20 | 20 | 0.647 |
-| Perplexity: turkish-gpt2-large | TUMU | 20 | 40 | 0.633 |
-| Perplexity: turkish-gpt2-large | Aithor | 20 | 20 | 0.599 |
-| Perplexity: turkish-gpt2-large | Rephraser | 20 | 20 | 0.667 |
-| Perplexity: gpt2-turkish-cased | TUMU | 20 | 40 | 0.607 |
-| Perplexity: gpt2-turkish-cased | Aithor | 20 | 20 | 0.604 |
-| Perplexity: gpt2-turkish-cased | Rephraser | 20 | 20 | 0.610 |
+| GPTZero | 19 | 20 | 0,950 | [0,764 ; 0,991] |
+| ZeroGPT | 10 | 20 | 0,500 | [0,299 ; 0,701] |
 
-> Not: Insanlastirilmis metinler ham metinlerden turetildiginden
-> iki grup bagimsiz degildir. AUC burada mutlak bir siniflandirma
-> performansi degil, esikten bagimsiz bir ayrilabilirlik olcusu
-> olarak yorumlanmalidir.
+### Uretici model bazinda
 
-## 3. Esik gecisi (kacirma)
-
-Ham hali yapay olarak isaretlenmis metinlerin, insanlastirma
-sonrasi kacinin insan tarafina gectigi.
-
-| dedektor | arac | kacan | n | oran | %95 GA |
+| Dedektor | Model | Yakalanan | n | Recall | Wilson %95 |
 |---|---|---|---|---|---|
-| GPTZero | Aithor | 3 | 19 | 0.158 | [0.055, 0.376] |
-| GPTZero | Rephraser | 9 | 19 | 0.474 | [0.273, 0.683] |
-| ZeroGPT | Aithor | 2 | 10 | 0.200 | [0.057, 0.510] |
-| ZeroGPT | Rephraser | 2 | 10 | 0.200 | [0.057, 0.510] |
+| GPTZero | ChatGPT | 5 | 5 | 1,000 | [0,566 ; 1,000] |
+| GPTZero | Claude | 5 | 5 | 1,000 | [0,566 ; 1,000] |
+| GPTZero | Gemini | 5 | 5 | 1,000 | [0,566 ; 1,000] |
+| GPTZero | Kumru | 4 | 5 | 0,800 | [0,376 ; 0,964] |
+| ZeroGPT | ChatGPT | 4 | 5 | 0,800 | [0,376 ; 0,964] |
+| ZeroGPT | Claude | 2 | 5 | 0,400 | [0,118 ; 0,769] |
+| ZeroGPT | Gemini | 1 | 5 | 0,200 | [0,036 ; 0,624] |
+| ZeroGPT | Kumru | 3 | 5 | 0,600 | [0,231 ; 0,882] |
 
-## 4. Insanlastirmanin etkisi (Wilcoxon isaretli sira testi)
+## 3. Recall / yakalama orani -- insanlastirilmis metinler
 
-Ayni prompt icin ham ve insanlastirilmis metin eslestirilmistir.
-Fark = insanlastirilmis - ham (yapaylik skoru uzerinden).
-Negatif ortalama fark, insanlastirmanin metni daha az yapay
-gosterdigini isaret eder.
+| Dedektor | Insanlastirma araci | Yakalanan | n | Recall | Wilson %95 |
+|---|---|---|---|---|---|
+| GPTZero | Aithor | 16 | 20 | 0,800 | [0,584 ; 0,919] |
+| GPTZero | Rephraser | 10 | 20 | 0,500 | [0,299 ; 0,701] |
+| ZeroGPT | Aithor | 8 | 20 | 0,400 | [0,219 ; 0,613] |
+| ZeroGPT | Rephraser | 13 | 20 | 0,650 | [0,433 ; 0,819] |
 
-| dedektor | arac | n | ortalama fark | medyan fark | z | p | |
-|---|---|---|---|---|---|---|---|
-| GPTZero | Aithor | 11 | -0.117 | +0.000 | -1.82 | 0.0682 | a.d. |
-| GPTZero | Rephraser | 20 | -0.422 | -0.340 | -3.90 | 0.0001 | *** |
-| ZeroGPT | Aithor | 8 | -0.089 | +0.000 | -1.47 | 0.1415 | a.d. |
-| ZeroGPT | Rephraser | 12 | +0.068 | +0.000 | -1.06 | 0.2896 | a.d. |
-| Perplexity: turkish-gpt2 | Aithor | 17 | -4.318 | -2.580 | -2.70 | 0.0070 | ** |
-| Perplexity: turkish-gpt2 | Rephraser | 20 | -6.963 | -5.913 | -2.59 | 0.0095 | ** |
-| Perplexity: turkish-gpt2-large | Aithor | 17 | -2.913 | -1.884 | -3.12 | 0.0018 | ** |
-| Perplexity: turkish-gpt2-large | Rephraser | 20 | -6.055 | -2.862 | -3.08 | 0.0021 | ** |
-| Perplexity: gpt2-turkish-cased | Aithor | 17 | -11.132 | -2.885 | -2.27 | 0.0231 | * |
-| Perplexity: gpt2-turkish-cased | Rephraser | 20 | -11.644 | -5.862 | -2.15 | 0.0318 | * |
+## 4. Evasion etkisi
 
-Anlamlilik: *** p<0,001  ** p<0,01  * p<0,05  a.d. = anlamli degil
+KARDEP tanimi: ham yapay zeka recall degeri ile humanized recall degeri arasindaki dusus.
 
-> Not: n=20 ile calisan testlerde guc dusuktur; anlamsiz sonuc
-> etkinin yoklugunu degil, mevcut orneklemle gosterilemedigini
-> ifade eder.
+`Evasion etkisi = Recall(ham) - Recall(insanlastirilmis)`
+
+Pozitif deger dususu, negatif deger insanlastirmanin metni daha yakalanabilir hale getirdigini gosterir.
+
+| Dedektor | Insanlastirma araci | Recall(ham) | Recall(ins.) | Evasion etkisi |
+|---|---|---|---|---|
+| GPTZero | Aithor | 0,950 | 0,800 | +0,150 |
+| GPTZero | Rephraser | 0,950 | 0,500 | +0,450 |
+| ZeroGPT | Aithor | 0,500 | 0,400 | +0,100 |
+| ZeroGPT | Rephraser | 0,500 | 0,650 | -0,150 |
+
+### Insanlastirma araci ayrimi yapilmadan
+
+| Dedektor | Recall(ham) | Recall(ins.) | Evasion etkisi |
+|---|---|---|---|
+| GPTZero | 0,950 | 0,650 | +0,300 |
+| ZeroGPT | 0,500 | 0,525 | -0,025 |
+
+## 5. Alt grup analizi -- metin uzunlugu
+
+Tum metinlerin kelime sayisi medyani: 112,5 kelime.
+
+Ham yapay zeka metinleri tasarim geregi 100-120 kelime bandindadir; bant ici / bant disi ayrimi bu sinif icin islevsizdir. Bu nedenle kirilim medyan bolmesiyle yapilmistir.
+
+| Dedektor | Sinif | Uzunluk | Yakalanan | n | Recall | Wilson %95 |
+|---|---|---|---|---|---|---|
+| GPTZero | ham | medyan alti | 8 | 9 | 0,889 | [0,565 ; 0,980] |
+| GPTZero | ham | medyan ustu | 11 | 11 | 1,000 | [0,741 ; 1,000] |
+| GPTZero | insanlastirilmis | medyan alti | 13 | 21 | 0,619 | [0,409 ; 0,792] |
+| GPTZero | insanlastirilmis | medyan ustu | 13 | 19 | 0,684 | [0,460 ; 0,846] |
+| ZeroGPT | ham | medyan alti | 4 | 9 | 0,444 | [0,189 ; 0,733] |
+| ZeroGPT | ham | medyan ustu | 6 | 11 | 0,545 | [0,280 ; 0,787] |
+| ZeroGPT | insanlastirilmis | medyan alti | 11 | 21 | 0,524 | [0,324 ; 0,717] |
+| ZeroGPT | insanlastirilmis | medyan ustu | 10 | 19 | 0,526 | [0,317 ; 0,727] |
+
+## 6. Bu asamada hesaplanamayan Bolum 13 metrikleri
+
+| Metrik | Gerekce |
+|---|---|
+| Yanlis pozitif orani (FPR) | Insan yazimi metin sinifi yok. |
+| Karma-etkili lojistik regresyon | Katilimci duzeyinde kumelenme gerektirir; katilimci verisi yok. |
+| Sirali egilim analizi | Egitim seviyesi / unvan degiskeni katilimci verisiyle gelir. |
+| Alt grup: fakulte, yazma sikligi | Katilimci verisiyle gelir. |
